@@ -176,7 +176,10 @@ public class AnimalMovement : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, targetPosition, 10f);
     }
 
-
+    private void GameOver()
+    {
+        GameManager.singleton.LoadMainMenu();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -186,6 +189,7 @@ public class AnimalMovement : MonoBehaviour
             waterSplash.Play();
             this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
             this.enabled = false;
+            Invoke("GameOver", 1f);
         }
 
         if (collision.gameObject.CompareTag("vehicle"))
@@ -193,6 +197,7 @@ public class AnimalMovement : MonoBehaviour
             // player gets hit by a car
             animator.SetTrigger("IsDead");
             this.enabled = false;
+            Invoke("GameOver", 1f);
         }
 
         if (collision.gameObject.CompareTag("obstacle"))
@@ -234,6 +239,7 @@ public class AnimalMovement : MonoBehaviour
             if(this.transform.position.x > 12 || this.transform.position.x < -12)
             {
                 Debug.Log("Game Over");
+                GameOver();
             }
         }
     }
