@@ -1,1 +1,3 @@
 UI- SteampunkUI - https://assetstore.unity.com/packages/2d/gui/icons/steampunkui-238976
+
+Coins - Procedural Coins - https://assetstore.unity.com/packages/3d/props/procedural-coins-60686
