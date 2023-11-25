@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager singleton;
+    public TMPro.TextMeshProUGUI scoreText;
+    public int score = 0;
     private void Awake()
     {
         if (singleton == null)
@@ -34,6 +36,12 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         Time.timeScale = 1;
+    }
+
+    public void IncreaseScore(int increment)
+    {
+        score += increment;
+        scoreText.text = $"Score: {score}";
     }
 
     public void LoadMainMenu()
