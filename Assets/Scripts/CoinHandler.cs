@@ -5,6 +5,7 @@ using UnityEngine;
 public class CoinHandler : MonoBehaviour
 {
     private GameManager gameManager;
+    public float rotationSpeed;
 
     void Start()
     {
@@ -28,5 +29,15 @@ public class CoinHandler : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    private void Update()
+    {
+        RotateCoin();
+    }
+
+    private void RotateCoin()
+    {
+        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
     }
 }
