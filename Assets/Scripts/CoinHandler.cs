@@ -5,10 +5,12 @@ using UnityEngine;
 public class CoinHandler : MonoBehaviour
 {
     private GameManager gameManager;
+    private SoundManager soundManager;
     public float rotationSpeed;
 
     void Start()
-    {
+    {   
+        soundManager=GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         // Find the GameManager in the scene
         gameManager = FindObjectOfType<GameManager>();
 
@@ -24,7 +26,7 @@ public class CoinHandler : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             if (gameManager != null)
-            {
+            {   soundManager.PlayCoinCollect();
                 gameManager.IncreaseScore(10);
                 Destroy(gameObject);
             }
