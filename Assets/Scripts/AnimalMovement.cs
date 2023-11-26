@@ -23,9 +23,11 @@ public class AnimalMovement : MonoBehaviour
     public float zPos, xPos;
 
     public ParticleSystem waterSplash;
+    private SoundManager soundManager;
 
     void Start()
-    {
+    {   
+        soundManager=GameObject.Find("Sound Manager").GetComponent<SoundManager>();
         targetPosition = transform.position;
         targetRotation = transform.rotation;
         animator = GetComponent<Animator>();
@@ -187,6 +189,7 @@ public class AnimalMovement : MonoBehaviour
         {
             // Player drowns
             waterSplash.Play();
+            soundManager.PlayWaterSplash();
             this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
             this.enabled = false;
             Invoke("GameOver", 1f);
@@ -196,6 +199,7 @@ public class AnimalMovement : MonoBehaviour
         {
             // player gets hit by a car
             animator.SetTrigger("IsDead");
+            soundManager.PlayKnockedDown();
             this.enabled = false;
             Invoke("GameOver", 1f);
         }

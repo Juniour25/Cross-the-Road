@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager singleton;
     public TMPro.TextMeshProUGUI scoreText;
     public int score = 0;
+    private SoundManager soundManager;
     private void Awake()
     {
         if (singleton == null)
@@ -20,22 +21,40 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+        
+    }
+    void Start(){
+        soundManager=GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        Scene currentScene=SceneManager.GetActiveScene();
+        if(currentScene.buildIndex==0){
+            soundManager.PlayMenuMusic();
+        }
+        else{
+            soundManager.PlayBgMusic();
+        }
     }
 
     public void StartGame()
-    {
+    {  
+
         SceneManager.LoadScene(1);
         Time.timeScale = 1;
+        soundManager=SoundManager.instance;
+        soundManager.PlayBgMusic();
+        soundManager.StopMenuMusic();
     }
 
     public void PauseGame()
     {
         Time.timeScale = 0;
+        soundManager.PauseBgMusic();
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
+        soundManager.ResumeBGMusic();
+        
     }
 
     public void IncreaseScore(int increment)
@@ -47,6 +66,7 @@ public class GameManager : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene(0);
+        soundManager.PlayMenuMusic();
     }
 
     public void ExitGame()
