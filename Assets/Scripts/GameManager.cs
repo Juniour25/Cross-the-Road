@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager singleton;
     public TMPro.TextMeshProUGUI scoreText;
+    public TMPro.TextMeshProUGUI highScoreText;
     public int score = 0;
+    public int highScore;
     private SoundManager soundManager;
     private void Awake()
     {
@@ -21,25 +23,31 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
-        
+
+        highScore = PlayerPrefs.GetInt("HighScore");
+        highScoreText.text = $"High Score: {highScore}";
     }
-    void Start(){
-        soundManager=GameObject.Find("Sound Manager").GetComponent<SoundManager>();
-        Scene currentScene=SceneManager.GetActiveScene();
-        if(currentScene.buildIndex==0){
+    void Start()
+    {
+        soundManager = GameObject.Find("Sound Manager").GetComponent<SoundManager>();
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        if (currentScene.buildIndex == 0)
+        {
             soundManager.PlayMenuMusic();
         }
-        else{
+        else
+        {
             soundManager.PlayBgMusic();
         }
     }
 
     public void StartGame()
-    {  
+    {
 
         SceneManager.LoadScene(1);
         Time.timeScale = 1;
-        soundManager=SoundManager.instance;
+        soundManager = SoundManager.instance;
         soundManager.PlayBgMusic();
         soundManager.StopMenuMusic();
     }
@@ -54,13 +62,20 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         soundManager.ResumeBGMusic();
-        
+
     }
 
     public void IncreaseScore(int increment)
     {
         score += increment;
         scoreText.text = $"Score: {score}";
+
+        //if score is greater than previous high score
+        if (score > highScore)
+        {
+            highScoreText.text = $"High Score: {score}";
+            PlayerPrefs.SetInt("HighScore", score);
+        }
     }
 
     public void LoadMainMenu()
