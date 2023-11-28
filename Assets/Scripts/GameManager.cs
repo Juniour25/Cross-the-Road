@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
         }
 
         highScore = PlayerPrefs.GetInt("HighScore");
-        highScoreText.text = $"High Score: {highScore}";
+        if(highScoreText != null)
+            highScoreText.text = $"High Score: {highScore}";
     }
     void Start()
     {
