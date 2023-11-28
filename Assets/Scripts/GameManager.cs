@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public TMPro.TextMeshProUGUI scoreText;
     public TMPro.TextMeshProUGUI highScoreText;
     public int score = 0;
-    public int highScore;
+    private int highScore;
     private SoundManager soundManager;
     private void Awake()
     {
