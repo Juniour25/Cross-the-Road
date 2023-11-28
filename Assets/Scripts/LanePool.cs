@@ -11,9 +11,7 @@ public class LanePool : MonoBehaviour
     public float safeZone = 15.0f;
     private int maximumLanes = 3;
     private List<GameObject> activeLanes;
-
-    private int maxCoinsPerLane = 20;
-    private float zRange = 20.0f;
+    private int maxCoinsPerLane = 70;
 
 
     public GameObject coinPrefab;
@@ -26,7 +24,6 @@ public class LanePool : MonoBehaviour
         for (int i = 0; i < maximumLanes; i++)
         {
             SpawnLane(0);
-
         }
     }
 
@@ -35,9 +32,11 @@ public class LanePool : MonoBehaviour
     {
         if (playerTransform.position.z - safeZone > (spawnZ - maximumLanes * length))
         {
+            DeleteAllCoins();
+            DeleteLane();
+
             SpawnLane(0);
             SpawnCoins();
-            DeleteLane();
         }
     }
     private void SpawnLane(int prefab = -1)
@@ -52,15 +51,20 @@ public class LanePool : MonoBehaviour
 
     private void SpawnCoins()
     {
-        for (int i = 0; i < maxCoinsPerLane; i++)
+        GameObject player = GameObject.Find("Player");
+
+        if (player != null)
         {
-            float randomX = Random.Range(0.0f, 20.0f); // Random X position in the lane
-            float randomY = 1.0f; // Adjust this based on your desired Y position
-            float randomZ = Random.Range(-zRange, zRange); // Random Z position within a specified range
+            for (int i = 0; i < maxCoinsPerLane; i++)
+            {
+                float randomX = Random.Range((int)-safeZone, (int)safeZone + 1); // Random X position in the lane
+                float randomY = 1.0f;
+                float randomZ = Random.Range(player.transform.position.z - length, player.transform.position.z + length); // this should follow the lane as it moves
 
-            Vector3 spawnPosition = new Vector3(randomX, randomY, randomZ);
+                Vector3 spawnPosition = new Vector3(randomX, randomY, randomZ);
 
-            Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
+                Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
+            }
         }
     }
 
@@ -68,5 +72,15 @@ public class LanePool : MonoBehaviour
     {
         Destroy(activeLanes[0]);
         activeLanes.RemoveAt(0);
+    }
+
+    private void DeleteAllCoins()
+    {
+        CoinHandler[] coinHandlers = GameObject.FindObjectsOfType<CoinHandler>();
+
+        foreach (CoinHandler coinHandler in coinHandlers)
+        {
+            Destroy(coinHandler.gameObject);
+        }
     }
 }
