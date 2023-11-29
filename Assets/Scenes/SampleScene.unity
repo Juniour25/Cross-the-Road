@@ -7490,7 +7490,6 @@ MonoBehaviour:
   scoreText: {fileID: 1097012056}
   highScoreText: {fileID: 1975947341}
   score: 0
-  highScore: 0
 --- !u!4 &1137028938
 Transform:
   m_ObjectHideFlags: 0
@@ -18154,7 +18153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1943750385
 Transform:
   m_ObjectHideFlags: 0
