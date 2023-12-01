@@ -169,6 +169,10 @@ public class AnimalMovement : MonoBehaviour
             //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f);
 
         }
+
+        pcControlMove();
+        
+        
     }
 
     public void startMove()
@@ -176,6 +180,123 @@ public class AnimalMovement : MonoBehaviour
         // Move towards the target position
         
         transform.position = Vector3.Lerp(transform.position, targetPosition, 10f);
+    }
+
+    void pcControlMove()
+    {
+        /// for pc
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) // Swipe right
+        {
+            targetPosition += transform.right;
+            if (facingRight && !facingUp && !facingDown && !facingLeft) // facing right
+            {
+                // Play anim
+                animator.SetTrigger("rightJump");
+            }
+            if (facingUp && !facingRight && !facingDown && !facingLeft) // facing up
+            {
+                // Play anim
+                animator.SetTrigger("upToRightRot");
+                facingUp = false; facingRight = true;
+            }
+            if (facingLeft && !facingRight && !facingDown && !facingUp) // facing left
+            {
+                // Play anim
+                animator.SetTrigger("leftToRightRot");
+                facingLeft = false; facingRight = true;
+            }
+            if (facingDown && !facingRight && !facingLeft && !facingUp) // facing down
+            {
+                // Play anim
+                animator.SetTrigger("downToRightRot");
+                facingDown = false; facingRight = true;
+            }
+            Invoke("startMove", 0.12f);
+        }
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) // Swipe left
+        {
+            targetPosition += transform.right * -1;
+            if (facingLeft && !facingUp && !facingDown && !facingRight) // facing left
+            {
+                // Play anim
+                animator.SetTrigger("leftJump");
+            }
+            if (facingUp && !facingRight && !facingDown && !facingLeft) // facing up
+            {
+                // Play anim
+                animator.SetTrigger("upToLeftRot");
+                facingUp = false; facingLeft = true;
+            }
+            if (facingRight && !facingLeft && !facingDown && !facingUp) // facing Right
+            {
+                // Play anim
+                animator.SetTrigger("rightToLeftRot");
+                facingRight = false; facingLeft = true;
+            }
+            if (facingDown && !facingRight && !facingLeft && !facingUp) // facing down
+            {
+                // Play anim
+                animator.SetTrigger("downToLeftRot");
+                facingDown = false; facingLeft = true;
+            }
+            Invoke("startMove", 0.12f);
+        }
+        else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) // Swipe up
+        {
+            targetPosition += transform.forward;
+            if (facingUp && !facingRight && !facingDown && !facingLeft) // facing up
+            {
+                // Play anim
+                animator.SetTrigger("hasJump");
+            }
+            if (facingRight && !facingUp && !facingDown && !facingLeft) // facing right
+            {
+                // Play anim
+                animator.SetTrigger("rightToUpRot");
+                facingRight = false; facingUp = true;
+            }
+            if (facingLeft && !facingRight && !facingDown && !facingUp) // facing left
+            {
+                // Play anim
+                animator.SetTrigger("leftToUpRot");
+                facingLeft = false; facingUp = true;
+            }
+            if (facingDown && !facingRight && !facingLeft && !facingUp) // facing down
+            {
+                // Play anim
+                animator.SetTrigger("downToUpRot");
+                facingDown = false; facingUp = true;
+            }
+            Invoke("startMove", 0.12f);
+        }
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) // Swipe down
+        {
+            targetPosition += transform.forward * -1;
+            if (facingDown && !facingUp && !facingRight && !facingLeft) // facing down
+            {
+                // Play anim
+                animator.SetTrigger("backJump");
+            }
+            if (facingRight && !facingUp && !facingDown && !facingLeft) // facing right
+            {
+                // Play anim
+                animator.SetTrigger("rightToDownRot");
+                facingRight = false; facingDown = true;
+            }
+            if (facingLeft && !facingRight && !facingDown && !facingUp) // facing left
+            {
+                // Play anim
+                animator.SetTrigger("leftToDownRot");
+                facingLeft = false; facingDown = true;
+            }
+            if (facingUp && !facingRight && !facingLeft && !facingDown) // facing up
+            {
+                // Play anim
+                animator.SetTrigger("upToDownRot");
+                facingUp = false; facingDown = true;
+            }
+            Invoke("startMove", 0.12f);
+        }
     }
 
     private void GameOver()
